@@ -1,4 +1,4 @@
-function gx_align_testgx_align_test::test_gx_align_image
+function gx_align_test::test_gx_align_image
   required_accuracy = 0.1
   small_number = 0.01
   
