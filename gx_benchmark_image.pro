@@ -28,11 +28,12 @@
 function gx_benchmark_image, data_model, data_obs, brightness_threshold = brightness_threshold
   if not keyword_set(brightness_threshold) then brightness_threshold = 0d
   
+  mask = data_obs gt (brightness_threshold * max(data_obs))
+  
   ;COnvert input data to double precision floats
   data_model_d = double(data_model*mask)
   data_obs_d = double(data_obs*mask)
   
-  mask = data_obs_d gt (brightness_threshold * max(data_obs_d))
   ind = where(mask)
   n_pics = total(mask)
   cor = correlate(data_model_d, data_obs_d)
