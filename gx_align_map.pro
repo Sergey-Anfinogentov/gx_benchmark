@@ -9,13 +9,14 @@
 ; :Params:
 ;    map        : in/out, a map to align
 ;    reference  : in, a reference map
+;    shifts     : out, returns shifts applied to the map in map units, i.e arcseconds
 ;    
 ;     
 ;
 ;
 ; :Author: Sergey Anfinogentov (anfinogentov@iszf.irk.ru)
 ;-
-pro gx_align_map, map, reference
+pro gx_align_map, map, reference, shifts = shifts
 
 ; Find out what map has the highest spatial resolution
   if map.dx ge reference.dx then begin
@@ -36,9 +37,14 @@ pro gx_align_map, map, reference
   shift_x = shifts[0]*map_1.dx/dx_sign
   shift_y = shifts[1]*map_1.dy/dx_sign
   
+  ;save orginal xc and yc
+  add_prop, map,orig_xc=map.xc
+  add_prop, map, orig_yc=map.yc
   ;change map center coordinates
   map.xc = map.xc + shift_x
   map.yc = map.yc + shift_y
+  
+  shifts = [shift_x, shift_y]
 
 
 
