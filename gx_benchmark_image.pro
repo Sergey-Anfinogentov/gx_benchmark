@@ -26,9 +26,13 @@
   ; :Author: Sergey Anfinopgentov (anfinogentov@iszf.irk.ru)
   ;-
 function gx_benchmark_image, data_model, data_obs, brightness_threshold = brightness_threshold
-  if not keyword_set(brightness_threshold) then brightness_threshold = 0d
+  if not keyword_set(brightness_threshold) then begin
+    mask =data_model*0.+1.
+  endif else begin
+    mask = abs(data_obs) gt (brightness_threshold * max(abs(data_obs)))
+  endelse
   
-  mask = data_obs gt (brightness_threshold * max(data_obs))
+  
   
   ;COnvert input data to double precision floats
   data_model_d = double(data_model*mask)

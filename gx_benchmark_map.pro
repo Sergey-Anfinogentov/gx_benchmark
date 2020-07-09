@@ -11,6 +11,7 @@
 ;       only pixels with the brightness above some threshold.
 ;       Setting "brightness_threshold=0.1d" will result in processing only pixels
 ;       with the brightness above 10% of the maximum brigntness values in the reference image
+;    no_align - set this keyword to disable automatic data alignment
 ;
 ; :Return value:
 ;     The routine returns a structure with the following fields:
@@ -24,12 +25,14 @@
 ; :Author: Sergey Anfinopgentov (anfinogentov@iszf.irk.ru)
 ;-
 
-function gx_benchmark_map, map, reference, brightness_threshold = brightness_threshold
+function gx_benchmark_map, map, reference, brightness_threshold = brightness_threshold, no_align = no_align
   ;align map
-  gx_align_map, map, reference
+  if not keyword_set(no_align) then begin
+    gx_align_map, map, reference
+  endif
   
   ;Interpolate reference map (which is assumed to have broader than the synthetic image)
-  map_ref = inter_maP(reference, map)
+  map_ref = inter_maP(reference, map, cubic = -0.5)
   
   metrics = gx_benchmark_image(map.data, map_ref.data, brightness_threshold = brightness_threshold)
 
