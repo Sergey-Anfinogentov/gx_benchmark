@@ -125,7 +125,7 @@ function gx_metrics_image, data_model, data_obs, data_sdev,mask=mask,apply2=appl
          res_norm=total(res_img_norm[mask_pix])/n_mask_pix
          res2_img=res_img^2
          if nbad gt 0 then res2_img[bad]=0
-         res2=total(res2_img[mask_pix])/n_mask_pix-res^2/n_mask_pix
+         res2=total(res2_img[mask_pix])/n_mask_pix-res^2/n_mask_pix^2
          res2_img_norm=res_img_norm^2
          if nbad gt 0 then res2_img_norm[bad]=1
          res2_norm=total(res2_img_norm[mask_pix])/n_mask_pix-res_norm^2
